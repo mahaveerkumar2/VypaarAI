@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#142c55">
+<title>VyapaarAI — Smarter Tools for Your Business</title>
+<style>
+:root{--navy:#142c55;--blue:#2675f5;--purple:#7045e8;--muted:#66748b;--line:#e5eaf2;--bg:#f6f8fc}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#172744;font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header{background:linear-gradient(125deg,#10264b,#234b91);color:white;padding:22px 18px 28px}
+.wrap{max-width:900px;margin:auto}.brand{display:flex;align-items:center;gap:12px}.mark{width:48px;height:48px;border-radius:15px;background:linear-gradient(135deg,#45b4ff,#7247f5);display:grid;place-items:center;font-size:28px;font-weight:900;box-shadow:0 8px 24px #0002}.brand h1{margin:0;font-size:25px;letter-spacing:-.6px}.brand p{margin:1px 0 0;color:#dbe8ff;font-size:13px}
+.hero{padding:27px 0 2px}.hero h2{font-size:clamp(27px,6vw,40px);line-height:1.12;margin:0 0 10px;max-width:680px}.hero p{color:#e1eaff;margin:0;max-width:620px}
+main{padding:20px 14px 40px}.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 16px}.tab{border:1px solid var(--line);background:white;border-radius:12px;padding:12px 7px;font-weight:750;color:#45546b;cursor:pointer}.tab.active{background:#eaf1ff;border-color:#b8ceff;color:#1c55b6}
+.panel{background:white;border:1px solid var(--line);border-radius:18px;padding:clamp(16px,4vw,25px);box-shadow:0 8px 30px #1d37600a}.panel h3{margin:0 0 5px;font-size:23px}.sub{margin:0 0 20px;color:var(--muted);font-size:14px}
+label{display:block;font-weight:700;font-size:14px;margin:14px 0 6px}input,textarea,select{width:100%;border:1px solid #d5dce8;border-radius:11px;padding:12px 13px;font:inherit;background:#fff;color:#172744;outline:none}input:focus,textarea:focus,select:focus{border-color:#568bff;box-shadow:0 0 0 3px #2675f51a}textarea{min-height:100px;resize:vertical}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn{border:0;border-radius:11px;background:linear-gradient(100deg,var(--blue),var(--purple));color:white;font-weight:800;padding:13px 16px;cursor:pointer;width:100%;margin-top:17px}.btn.secondary{background:#edf2fa;color:#213b66;border:1px solid #dce5f2}.result{display:none;margin-top:18px;border:1px solid #cbdcfb;background:#f7faff;border-radius:13px;padding:15px;white-space:pre-wrap;overflow-wrap:anywhere}.result strong{display:block;margin-bottom:8px}.result p{margin:0}.hint{color:var(--muted);font-size:12px;margin-top:12px}.footer{text-align:center;color:#738096;font-size:12px;padding:24px 8px 0}.pill{display:inline-block;background:#eaf1ff;color:#2454a4;padding:5px 10px;border-radius:99px;font-size:12px;font-weight:750;margin-bottom:10px}
+@media(max-width:520px){.grid{grid-template-columns:1fr}.tab{font-size:13px}.brand h1{font-size:23px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="brand"><div class="mark">V↗</div><div><h1>VyapaarAI</h1><p>Smarter Tools for Your Business</p></div></div>
+  <section class="hero"><span class="pill">BUILT FOR INDIAN BUSINESSES</span><h2>Spend less time writing.<br>More time growing.</h2><p>Create clear product descriptions, prepare quotations, and draft customer replies from one simple workspace.</p></section>
+</div></header>
+<main class="wrap">
+  <nav class="tabs" aria-label="Tools">
+    <button class="tab active" data-panel="description">✍️ Product text</button>
+    <button class="tab" data-panel="quote">₹ Quotation</button>
+    <button class="tab" data-panel="reply">💬 Customer reply</button>
+  </nav>
+  <section class="panel" id="description">
+    <h3>Product description</h3><p class="sub">Turn basic product details into polished, ready-to-edit business copy.</p>
+    <label for="pname">Product name</label><input id="pname" placeholder="e.g. Cold-pressed mustard oil">
+    <div class="grid"><div><label for="audience">Customer type</label><select id="audience"><option>Wholesale buyers</option><option>Retail customers</option><option>Distributors</option><option>Online shoppers</option></select></div><div><label for="lang1">Language</label><select id="lang1"><option>English</option><option>Hindi</option></select></div></div>
+    <label for="details">Verified product details</label><textarea id="details" placeholder="Pack size, ingredients, features, minimum order, etc. Avoid claims you cannot verify."></textarea>
+    <button class="btn" onclick="makeDescription()">Create description</button>
+    <div class="result" id="descResult"><strong>Your draft</strong><p id="descText"></p><button class="btn secondary" onclick="copyText('descText')">Copy text</button></div>
+  </section>
+  <section class="panel" id="quote" hidden>
+    <h3>Quotation calculator</h3><p class="sub">Calculate a basic subtotal. Taxes, shipping, and other charges are not included.</p>
+    <label for="qcustomer">Customer / business name (optional)</label><input id="qcustomer" placeholder="Customer name">
+    <label for="qproduct">Product or service</label><input id="qproduct" placeholder="e.g. Mustard oil, 1 litre bottle">
+    <div class="grid"><div><label for="qty">Quantity (whole units)</label><input id="qty" type="number" min="1" step="1" placeholder="100"></div><div><label for="price">Price per unit (₹)</label><input id="price" type="number" min="0" step="0.01" placeholder="150"></div></div>
+    <label for="terms">Additional terms (optional)</label><input id="terms" placeholder="e.g. Delivery to be confirmed">
+    <button class="btn" onclick="makeQuote()">Calculate quotation</button>
+    <div class="result" id="quoteResult"><strong>Your draft quotation</strong><p id="quoteText"></p><button class="btn secondary" onclick="copyText('quoteText')">Copy quotation</button></div>
+  </section>
+  <section class="panel" id="reply" hidden>
+    <h3>Customer reply helper</h3><p class="sub">Create a polite message based on facts you provide. Review before sending.</p>
+    <label for="rcontext">What did the customer ask?</label><textarea id="rcontext" placeholder="e.g. They want the minimum order quantity and delivery estimate."></textarea>
+    <div class="grid"><div><label for="rtone">Tone</label><select id="rtone"><option>Friendly and professional</option><option>Formal</option><option>Short and direct</option></select></div><div><label for="rlang">Language</label><select id="rlang"><option>English</option><option>Hindi</option></select></div></div>
+    <label for="rfacts">Your confirmed answer / facts</label><textarea id="rfacts" placeholder="Enter the actual MOQ, price, delivery details, or write what you can confirm."></textarea>
+    <button class="btn" onclick="makeReply()">Draft customer reply</button>
+    <div class="result" id="replyResult"><strong>Your draft</strong><p id="replyText"></p><button class="btn secondary" onclick="copyText('replyText')">Copy reply</button></div>
+  </section>
+  <p class="hint">Prototype notice: these tools run in your browser and do not send information to an AI model. They create templates, not live AI-generated answers. Check all prices, product claims, taxes, and delivery terms before sharing.</p>
+  <div class="footer">VyapaarAI · Smarter Tools for Your Business<br>Early prototype · Brand name and domain availability not yet verified</div>
+</main>
+<script>
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{
+ document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));
+ document.querySelectorAll('.panel').forEach(p=>p.hidden=p.id!==b.dataset.panel);
+}));
+function show(id){document.getElementById(id).style.display='block'}
+function makeDescription(){
+ const n=document.getElementById('pname').value.trim(),d=document.getElementById('details').value.trim(),a=document.getElementById('audience').value,l=document.getElementById('lang1').value;
+ if(!n||!d){alert('Please enter the product name and verified details.');return}
+ let t=l==='Hindi'?`${n}\n\n${a} के लिए प्रस्तुत है ${n}।\n\nउत्पाद की जानकारी: ${d}\n\nऑर्डर, उपलब्धता और कीमत की पुष्टि के लिए हमसे संपर्क करें।\n\nनोट: ऑर्डर से पहले सभी विवरणों की पुष्टि करें।`:`${n}\n\nIntroducing ${n} for ${a.toLowerCase()}.\n\nProduct details: ${d}\n\nContact us to confirm pricing, availability, order quantities, and delivery terms.\n\nPlease verify all details before publishing.`;
+ document.getElementById('descText').textContent=t;show('descResult');
+}
+function makeQuote(){
+ const p=document.getElementById('qproduct').value.trim(),q=Number(document.getElementById('qty').value),u=Number(document.getElementById('price').value),c=document.getElementById('qcustomer').value.trim(),terms=document.getElementById('terms').value.trim();
+ if(!p||!Number.isInteger(q)||q<1||document.getElementById('price').value===''||!Number.isFinite(u)||u<0){alert('Enter a product, a positive whole-number quantity, and a valid unit price.');return}
+ const fmt=n=>n.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+ const t=`DRAFT QUOTATION${c?'\nCustomer: '+c:''}\nProduct: ${p}\nQuantity: ${q}\nUnit price: ₹${fmt(u)}\nSubtotal: ₹${fmt(q*u)}\nTaxes and delivery: Not included; confirm separately${terms?'\nTerms: '+terms:''}\n\nThis is a draft. Confirm prices and terms before sending.`;
+ document.getElementById('quoteText').textContent=t;show('quoteResult');
+}
+function makeReply(){
+ const c=document.getElementById('rcontext').value.trim(),f=document.getElementById('rfacts').value.trim(),tone=document.getElementById('rtone').value,l=document.getElementById('rlang').value;
+ if(!c||!f){alert('Enter the customer question and your confirmed facts.');return}
+ const hi=l==='Hindi'?'नमस्ते, संपर्क करने के लिए धन्यवाद।':'Hello, thank you for reaching out.';
+ const close=l==='Hindi'?'यदि आपके कोई और सवाल हों, तो कृपया बताएं।':'Please let us know if you have any other questions.';
+ const body=l==='Hindi'?`आपके सवाल के बारे में: ${c}\n\nहमारी पुष्टि की गई जानकारी: ${f}`:`Regarding your question: ${c}\n\nHere is the information we can confirm: ${f}`;
+ const t=`${hi}\n\n${body}\n\n${close}\n\n${tone==='Short and direct'?'': 'Best regards,\nYour Business Team'}`;
+ document.getElementById('replyText').textContent=t;show('replyResult');
+}
+async function copyText(id){const t=document.getElementById(id).textContent;try{await navigator.clipboard.writeText(t);alert('Copied!')}catch(e){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();alert('Copied if your browser permits clipboard access.')}}
+</script>
+</body></html>
